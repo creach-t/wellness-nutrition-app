@@ -304,8 +304,8 @@ class ProgressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final progressValue = total > 0 ? progress / total : 0.0;
     final progressColor = color ?? WellnessColors.primaryBlue;
+    final progressValue = total > 0 ? progress / total : 0.0;
 
     return WellnessCard(
       child: Padding(
@@ -339,7 +339,7 @@ class ProgressCard extends StatelessWidget {
             const SizedBox(height: 12),
             LinearProgressIndicator(
               value: progressValue,
-              backgroundColor: progressColor.withOpacity(0.2),
+              backgroundColor: progressColor.withOpacity(0.1),
               valueColor: AlwaysStoppedAnimation<Color>(progressColor),
               borderRadius: BorderRadius.circular(8),
               minHeight: 8,
@@ -354,16 +354,14 @@ class ProgressCard extends StatelessWidget {
 class AchievementBadge extends StatelessWidget {
   const AchievementBadge({
     super.key,
-    required this.emoji,
     required this.title,
-    required this.description,
-    this.isUnlocked = false,
+    required this.emoji,
+    required this.isUnlocked,
     this.onTap,
   });
 
-  final String emoji;
   final String title;
-  final String description;
+  final String emoji;
   final bool isUnlocked;
   final VoidCallback? onTap;
 
@@ -376,118 +374,56 @@ class AchievementBadge extends StatelessWidget {
           : WellnessColors.neutralWarm,
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: Row(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              width: 48,
-              height: 48,
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: isUnlocked 
                     ? WellnessColors.successGentle.withOpacity(0.2)
-                    : Colors.grey.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(24),
+                    : Colors.grey.withOpacity(0.1),
+                shape: BoxShape.circle,
               ),
-              child: Center(
-                child: Text(
-                  emoji,
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: isUnlocked ? null : Colors.grey,
-                  ),
+              child: Text(
+                emoji,
+                style: TextStyle(
+                  fontSize: 24,
+                  color: isUnlocked ? null : Colors.grey,
                 ),
               ),
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: WellnessTextStyles.labelLarge.copyWith(
-                      color: isUnlocked 
-                          ? WellnessColors.textPrimary 
-                          : WellnessColors.textSecondary,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    description,
-                    style: WellnessTextStyles.bodyTextSmall.copyWith(
-                      color: isUnlocked 
-                          ? WellnessColors.textSecondary 
-                          : Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            if (isUnlocked)
-              Icon(
-                Icons.check_circle,
-                color: WellnessColors.successGentle,
-                size: 20,
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class EmptyState extends StatelessWidget {
-  const EmptyState({
-    super.key,
-    required this.icon,
-    required this.title,
-    required this.description,
-    this.actionText,
-    this.onAction,
-  });
-
-  final IconData icon;
-  final String title;
-  final String description;
-  final String? actionText;
-  final VoidCallback? onAction;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              size: 64,
-              color: WellnessColors.textSecondary.withOpacity(0.6),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              title,
-              style: WellnessTextStyles.heading3.copyWith(
-                color: WellnessColors.textSecondary,
-              ),
-              textAlign: TextAlign.center,
-            ),
             const SizedBox(height: 8),
             Text(
-              description,
-              style: WellnessTextStyles.bodyText.copyWith(
-                color: WellnessColors.textSecondary,
+              title,
+              style: WellnessTextStyles.bodyTextSmall.copyWith(
+                fontWeight: FontWeight.w500,
+                color: isUnlocked 
+                    ? WellnessColors.textPrimary 
+                    : WellnessColors.textSecondary,
               ),
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
-            if (actionText != null && onAction != null) ...[
-              const SizedBox(height: 24),
-              WellnessButton(
-                onPressed: onAction,
-                style: WellnessButtonStyle.soft,
-                child: Text(actionText!),
+            if (isUnlocked)
+              Container(
+                margin: const EdgeInsets.only(top: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                decoration: BoxDecoration(
+                  color: WellnessColors.successGentle,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  '✓',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-            ],
           ],
         ),
       ),
