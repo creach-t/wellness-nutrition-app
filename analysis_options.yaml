@@ -1,0 +1,69 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    # Style et lisibilité
+    prefer_single_quotes: true
+    sort_constructors_first: true
+    sort_unnamed_constructors_first: true
+    always_declare_return_types: true
+    avoid_print: true
+    prefer_const_constructors: true
+    prefer_const_literals_to_create_immutables: true
+    sized_box_for_whitespace: true
+    use_key_in_widget_constructors: true
+    
+    # Wellness-specific rules
+    avoid_empty_else: true
+    avoid_unnecessary_containers: true
+    prefer_const_constructors_in_immutables: true
+    prefer_final_fields: true
+    prefer_final_locals: true
+    unnecessary_const: true
+    unnecessary_new: true
+    
+    # Performance
+    avoid_function_literals_in_foreach_calls: true
+    prefer_collection_literals: true
+    prefer_iterable_whereType: true
+    
+    # Naming conventions pour wellness app
+    non_constant_identifier_names: true
+    constant_identifier_names: true
+    
+    # Accessibility pour wellness
+    avoid_web_libraries_in_flutter: true
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "build/**"
+    - "android/**"
+    - "ios/**"
+    - "web/**"
+    - "windows/**"
+    - "linux/**"
+    - "macos/**"
+  
+  errors:
+    # Ignorer les erreurs des fichiers générés
+    invalid_annotation_target: ignore
+    
+  strong-mode:
+    # Mode strict pour une meilleure qualité de code wellness
+    implicit-casts: false
+    implicit-dynamic: false
+
+# Configuration spécifique pour l'app wellness
+dart_code_metrics:
+  rules:
+    # Maintenir la simplicité pour la bienveillance
+    cyclomatic-complexity:
+      threshold: 10
+    lines-of-code:
+      threshold: 100
+    number-of-parameters:
+      threshold: 4
+    maximum-nesting-level:
+      threshold: 5
